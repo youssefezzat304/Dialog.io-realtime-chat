@@ -1,8 +1,8 @@
 import { AxiosResponse } from "axios";
 import { MessageType, PrivateChat } from "../types/chat.types";
 import { Socket } from "socket.io-client";
-import { useChatStore } from "../utils/stores";
 import { axiosPrivate } from "./axios";
+import useChatStore from "@/services/stores/chat.store";
 
 export const getMessages = async (
   chatId: string,

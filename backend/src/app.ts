@@ -12,7 +12,7 @@ import deserializeUser from "../middlewares/deserializeUser.middleware";
 import { config } from "dotenv";
 import { SocketHandler } from "../types/interface";
 import messageSocketHandler from "../routes/message/message.socket";
-import checkAuthMiddleware from "../middlewares/checkAuth.middleware";
+import path from "path";
 
 config();
 
@@ -21,6 +21,8 @@ const corsOptions = {
   credentials: true,
   methods: "GET,POST,PUT,DELETE,PATCH",
 };
+
+const onlineUsers: { [userId: string]: string } = {};
 
 const app: Application = express();
 const port = Number(process.env.PORT) || 3000;
@@ -40,6 +42,10 @@ const initialiseMiddleware = (): void => {
   app.use(compression());
   app.use(morgan("dev"));
   app.use(deserializeUser);
+  app.use(
+    "/avatars",
+    express.static(path.join(__dirname, "../assets/avatars")),
+  );
 };
 
 const initialiseDatabaseConnection = (): void => {
@@ -61,14 +67,32 @@ const initializeSocketConnection = (
   handlers: SocketHandler[],
 ): void => {
   io.on("connection", (socket: Socket) => {
-    console.log("A user connected", socket.id);
+    console.log("A user connected:", socket.id);
 
+    // Listen for user coming online
+    socket.on("userOnline", (userId: string) => {
+      onlineUsers[userId] = socket.id; // Store user ID with their socket ID
+      console.log(`User ${userId} is online.`, onlineUsers);
+      io.emit("updateOnlineStatus", onlineUsers); // Broadcast the updated online users
+    });
+
+    // Register other handlers
     handlers.forEach((handler) => {
       handler.registerEvents(socket);
     });
 
+    // Handle user disconnection
     socket.on("disconnect", () => {
-      console.log("User disconnected");
+      console.log("User disconnected:", socket.id);
+      // Remove user from onlineUsers
+      for (const [userId, id] of Object.entries(onlineUsers)) {
+        if (id === socket.id) {
+          delete onlineUsers[userId];
+          console.log(`User ${userId} is offline.`, onlineUsers);
+          io.emit("updateOnlineStatus", onlineUsers); // Broadcast the updated online users
+          break;
+        }
+      }
     });
   });
 };

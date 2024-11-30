@@ -1,11 +1,11 @@
 import { MessagesSystem } from "@/app/(main)/dashboard/MessagesSystem";
-import { useChatStore } from "@/utils/stores";
 import MessageInput from "../../common/Input/MessageInput";
 import ChatHeaderIcons from "../../Header/ChatHeaderIcons";
 import BackBtn from "@/_components/common/Button/BackBtn";
 import Chats from "@/_components/List/Chats";
-import useMobileStore from "@/utils/stores/mobile.store";
+import useMobileStore from "@/services/stores/mobile.store";
 import useMediaQuery from "@/hooks/useMediaQuery";
+import useChatStore from "@/services/stores/chat.store";
 
 import styles from "./index.module.css";
 

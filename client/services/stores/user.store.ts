@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { User } from "../../types/user.types";
+import { chooseRandomAvatar } from "@/utils/avatarSystem";
 
 type UserStore = {
   user: User | null;
@@ -25,4 +26,4 @@ const useUserStore = create<UserStore>((set) => ({
   },
 }));
 
-export default useUserStore
+export default useUserStore;

@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import {
   LightBg,
   LoginIcon,
@@ -13,13 +13,13 @@ import useAuthenticateUser from "@/hooks/useAuthenticateUser";
 import styles from "./index.module.css";
 
 const Register = () => {
-  const { isLoading, initialUser } = useAuthenticateUser();
+  const { isLoading } = useAuthenticateUser();
 
   const [loginScreen, setLoginScreen] = useState(true);
   const signUp = useCallback(() => setLoginScreen(false), []);
   const logIn = useCallback(() => setLoginScreen(true), []);
 
-  if (initialUser || isLoading) return <RoutesLoading />;
+  if (isLoading) return <RoutesLoading />;
 
   return (
     <main className={styles.registerMain}>

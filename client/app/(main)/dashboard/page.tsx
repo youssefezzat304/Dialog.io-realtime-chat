@@ -8,7 +8,7 @@ import {
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import ChatInfoContainer from "@/_components/container/ChatInfoContainer";
 import { useMemo } from "react";
-import { useTabsStore } from "@/utils/stores";
+import useTabsStore from "@/services/stores/tabs.store";
 
 import styles from "./index.module.css";
 

@@ -18,7 +18,7 @@ import {
 import { User } from "./user.types";
 import { MessageType } from "./chat.types";
 import { FriendRequestState } from "./friendSystem.types";
-import { FriendRequestSchema } from "@/utils/validation/friendSystem.validation";
+import { FriendRequestSchema } from "@/services/validation/friendSystem.validation";
 
 export type AddFriendProps = {
   control: Control<FriendRequestSchema>;

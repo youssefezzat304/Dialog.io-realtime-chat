@@ -1,6 +1,5 @@
 "use client";
 import AddFriendDialog from "../../common/Dialog/AddFriendDialog";
-import { useUserStore } from "@/utils/stores";
 import { IoNotifications, IoSettingsSharp } from "react-icons/io5";
 import { RiContactsBook3Fill, RiLogoutCircleLine } from "react-icons/ri";
 import { PiChatsFill } from "react-icons/pi";
@@ -9,22 +8,24 @@ import NavBarBtn from "@/_components/common/Button/NavBarBtn";
 import useLogOut from "@/hooks/useLogOut";
 import useNavBar from "@/hooks/useNavBar";
 import Image from "next/image";
-import { AvatarPlaceholder1 } from "@/assets/avatarPlaceholder";
 import Link from "next/link";
+import useUserStore from "@/services/stores/user.store";
 
 import styles from "./index.module.css";
 
 const NavBar = () => {
   const { gotoChats, gotoContacts, handleFriendRequests, handleNotifications } =
     useNavBar();
-  const profilePic = useUserStore((state) => state.profilePic);
+  const currentUser = useUserStore((state) => state.user);
   const { handleLogOut } = useLogOut();
 
   return (
     <div className={styles.navBar}>
       <Link href={"/profile"}>
         <Image
-          src={!profilePic ? AvatarPlaceholder1 : profilePic}
+          height={60}
+          width={60}
+          src={currentUser?.profilePicture!}
           alt="Profile Picture"
           className={styles.placeholder}
         />

@@ -5,12 +5,12 @@ import { FormEvent, Fragment, useState } from "react";
 import ButtonIcon from "@/_components/common/Icon/ButtonIcon";
 import { FaCirclePlus } from "react-icons/fa6";
 import Image from "next/image";
-import { AvatarPlaceholder1 } from "@/assets/avatarPlaceholder";
 import { TextareaAutosize } from "@mui/material";
 import { CiSearch } from "react-icons/ci";
-import { useUserStore } from "@/utils/stores";
 import { User } from "@/types/user.types";
 import AddFriendToGroup from "@/_components/common/Entities/AddFriendToGroup";
+import useUserStore from "@/services/stores/user.store";
+import createGroupPlaceholder from "@/public/assets/create-group-placeholder.svg";
 
 import styles from "./index.module.css";
 
@@ -48,8 +48,10 @@ export default function CreateGroup() {
         <DialogTitle className={styles.title}>Create a new group</DialogTitle>
         <section className={styles.info}>
           <Image
+            height={180}
+            width={180}
             alt="Group picture"
-            src={AvatarPlaceholder1}
+            src={createGroupPlaceholder}
             className={styles.groupPic}
           />
           <div>

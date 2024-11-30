@@ -1,13 +1,16 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { useUserStore } from "../utils/stores";
-import { getUserInfo } from "../api/axios";
-import { useRouter } from "next/navigation";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getUserInfo, goOnline } from "../api/axios";
+import { usePathname, useRouter } from "next/navigation";
 import { User } from "@/types/user.types";
+import useUserStore from "@/services/stores/user.store";
+import { db } from "@/utils/indexedDB";
+import { socket } from "@/app/socket";
 
 const useAuthenticateUser = () => {
   const router = useRouter();
+  const pathname = usePathname();
   const setUser = useUserStore((state) => state.setUser);
   const [initialUser, setInitialUser] = useState<User | null>(null);
 
@@ -22,6 +25,8 @@ const useAuthenticateUser = () => {
         console.error("Failed to parse user from localStorage", error);
         setInitialUser(null);
       }
+    } else {
+      setInitialUser(null);
     }
   }, [setUser]);
 
@@ -31,13 +36,28 @@ const useAuthenticateUser = () => {
     enabled: !initialUser,
   });
 
+  const queryClient = useQueryClient();
+
   useEffect(() => {
+    const isRegisterPage = pathname === "/register";
     if (!isLoading) {
       if (!currentUser) {
+        localStorage.clear();
+        db.recentChatsDB.clear();
+        queryClient.removeQueries({
+          queryKey: ["currentUser"],
+          exact: true,
+        });
+        setUser(null);
         router.push("/register");
-      } else {
+      }
+      if (currentUser) {
         setUser(currentUser);
         localStorage.setItem("currentUser", JSON.stringify(currentUser));
+        goOnline(currentUser!._id, socket);
+        if (isRegisterPage) {
+          router.push("/dashboard");
+        }
       }
     }
   }, [currentUser, isLoading, router, initialUser, setUser]);

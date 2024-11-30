@@ -6,14 +6,15 @@ import { FaUserPlus } from "react-icons/fa";
 import AddFriend from "../../../container/AddFriend";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useUserStore } from "@/utils/stores";
 import { FriendRequestState } from "@/types/friendSystem.types";
 import {
   FriendRequestSchema,
   friendRequestValidation,
-} from "@/utils/validation/friendSystem.validation";
-import styles from "./index.module.css";
+} from "@/services/validation/friendSystem.validation";
 import { sendFriendRequest } from "@/api/friendrequest.api";
+import useUserStore from "@/services/stores/user.store";
+
+import styles from "./index.module.css";
 
 export default function AddFriendDialog() {
   const user = useUserStore((state) => state.user);
@@ -53,14 +54,14 @@ export default function AddFriendDialog() {
 
       try {
         const response: any = await sendFriendRequest(requestData);
-        const { status, data: responseData } = response.response;
+        const { status, data: responseData } = response.response || response;
 
         clearErrors();
-
         if (status === 404 || status === 400) {
           setIsFriendReqSuccessful(status === 400 ? "warning" : null);
           setError("root", { message: responseData.message });
-        } else if (status === 200) {
+        }
+        if (status === 200) {
           setIsFriendReqSuccessful("success");
         }
       } catch (error) {

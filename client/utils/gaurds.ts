@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
-import { PrivateChat, MessageType } from "../../types/chat.types";
-import { User } from "../../types/user.types";
+import { PrivateChat, MessageType } from "../types/chat.types";
+import { User } from "../types/user.types";
 
 export const isUser = (obj: any): obj is User => {
   return (

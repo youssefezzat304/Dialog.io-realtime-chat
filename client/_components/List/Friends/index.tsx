@@ -1,7 +1,7 @@
-import { useUserStore } from "@/utils/stores";
 import SearchBar from "../../common/Search/FriendsSearch";
 import { User } from "@/types/user.types";
 import Friend from "../../common/Entities/Friend";
+import useUserStore from "@/services/stores/user.store";
 
 import styles from "./index.module.css";
 

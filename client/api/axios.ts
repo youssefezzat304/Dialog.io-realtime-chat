@@ -1,5 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { User } from "../types/user.types";
+import { Socket } from "socket.io-client";
+import { socket } from "@/app/socket";
 
 const orginURL = process.env.NEXT_PUBLIC_API_HOST;
 
@@ -39,15 +41,16 @@ export const updateInfo = async (
   }
 };
 
-export const sendProfilePic = async (profilePic: any, requester: any) => {
+export const sendProfilePic = async (profilePic: any, requester: string) => {
   const formData = new FormData();
-  formData.append("profilePic", profilePic);
-  formData.append("requester", requester);
+  formData.append("profilePicture", profilePic);
+  formData.append("requesterId", requester);
   try {
     const response = await api.post("/upload/profile-picture", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
+      withCredentials: true,
     });
     return response.data;
   } catch (error: unknown) {
@@ -84,3 +87,11 @@ export const isRefreshTokenValid = async () => {
     return false;
   }
 };
+
+export function goOnline(userId: string, socket: Socket) {
+  socket.emit("userOnline", userId);
+}
+
+socket.on("updateOnlineStatus", (onlineUsers) => {
+  console.log("Online Users:", onlineUsers);
+});

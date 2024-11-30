@@ -1,12 +1,12 @@
-import { useChatStore, useUserStore } from "@/utils/stores";
 import { SubjectProps } from "@/types/props.types";
-import useMobileStore from "@/utils/stores/mobile.store";
-import { timestamp } from "@/utils/functions/time";
+import { timestamp } from "@/utils/time";
 import Image from "next/image";
-import { AvatarPlaceholder1 } from "@/assets/avatarPlaceholder";
+import { useFindChat } from "@/services/queries/chat.query";
+import useMobileStore from "@/services/stores/mobile.store";
+import useChatStore from "@/services/stores/chat.store";
+import useUserStore from "@/services/stores/user.store";
 
 import styles from "./index.module.css";
-import { useFindChat } from "@/utils/queries/chat.query";
 
 const RecentChat = ({ subject, lastMessage }: SubjectProps) => {
   const setChatWith = useChatStore((state) => state.setChatWith);
@@ -25,8 +25,10 @@ const RecentChat = ({ subject, lastMessage }: SubjectProps) => {
     <main className={styles.subjectMain} onClick={handleSelectChatId}>
       <div className={styles.subjectInfo}>
         <Image
+          height={48}
+          width={48}
           className={styles.friendPpContainer}
-          src={!profilePicture ? AvatarPlaceholder1 : profilePicture}
+          src={profilePicture}
           alt={displayName}
         />
         <div className={styles.messegeInfo}>

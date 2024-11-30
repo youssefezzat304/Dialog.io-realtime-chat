@@ -1,10 +1,10 @@
 import { MessageType } from "@/types/chat.types";
-import { useUserStore } from "@/utils/stores";
 import { memo } from "react";
-import styles from "./index.module.css";
-import { messageTimestamp } from "@/utils/functions/time";
+import { messageTimestamp } from "@/utils/time";
 import Image from "next/image";
-import { AvatarPlaceholder1 } from "@/assets/avatarPlaceholder";
+import useUserStore from "@/services/stores/user.store";
+
+import styles from "./index.module.css";
 
 interface ChatMessageProps {
   message: MessageType;
@@ -12,8 +12,9 @@ interface ChatMessageProps {
 }
 
 const ChatMessage = memo(({ message, isLastInStack }: ChatMessageProps) => {
+  const { content, createdAt, initiatedBy, receivedByType } = message;
   const currentUser = useUserStore((state) => state.user);
-  const isSentByCurrentUser = message.initiatedBy._id === currentUser?._id;
+  const isSentByCurrentUser = initiatedBy._id === currentUser?._id;
 
   return (
     <div
@@ -25,11 +26,9 @@ const ChatMessage = memo(({ message, isLastInStack }: ChatMessageProps) => {
     >
       {!isSentByCurrentUser && isLastInStack && (
         <Image
-          src={
-            !message.initiatedBy.profilePicture
-              ? AvatarPlaceholder1
-              : message.initiatedBy.profilePicture
-          }
+          width={48}
+          height={48}
+          src={initiatedBy.profilePicture}
           alt="Profile Picture"
           className={styles.messageProfilePic}
         />
@@ -39,11 +38,11 @@ const ChatMessage = memo(({ message, isLastInStack }: ChatMessageProps) => {
           isSentByCurrentUser ? `${styles.sent}` : `${styles.received}`
         }`}
       >
-        {!isSentByCurrentUser && message.receivedByType === "group" && (
-          <strong>{message.initiatedBy.displayName}</strong>
+        {!isSentByCurrentUser && receivedByType === "group" && (
+          <strong>{initiatedBy.displayName}</strong>
         )}
-        <p>{message.content}</p>
-        <p className={styles.mssgTime}>{messageTimestamp(message.createdAt)}</p>
+        <p>{content}</p>
+        <p className={styles.mssgTime}>{messageTimestamp(createdAt)}</p>
       </div>
     </div>
   );

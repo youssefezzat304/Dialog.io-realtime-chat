@@ -1,9 +1,9 @@
-import { useChatStore } from "@/utils/stores";
 import PrivateChat from "../PrivateChat";
 import useMediaQuery from "@/hooks/useMediaQuery";
+import Chats from "@/_components/List/Chats";
+import useChatStore from "@/services/stores/chat.store";
 
 import styles from "./index.module.css";
-import Chats from "@/_components/List/Chats";
 
 const Chat = () => {
   const chatWith = useChatStore((state) => state.chatWith);

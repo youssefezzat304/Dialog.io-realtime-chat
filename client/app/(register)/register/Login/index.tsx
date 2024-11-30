@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import {
   LoginSchema,
   loginValidation,
-} from "../../../../utils/validation/user.validation";
+} from "../../../../services/validation/user.validation";
 import { ButtonIcon } from "../../../../_components";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { BiMessageSquareError } from "react-icons/bi";
@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import { api } from "@/api/axios";
 
 import styles from "./index.module.css";
+import { LinearProgress } from "@mui/material";
 
 const Login = ({ signUp }: any) => {
   const router = useRouter();
@@ -20,7 +21,7 @@ const Login = ({ signUp }: any) => {
     register,
     handleSubmit,
     setError,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     clearErrors,
   } = useForm<LoginSchema>({ resolver: zodResolver(loginValidation) });
   const clearAllErrors = () => {
@@ -74,13 +75,17 @@ const Login = ({ signUp }: any) => {
             {...register("password")}
           />
         </label>
-        <input
-          className={styles.loginBtn}
-          title="Log-In button"
-          type="submit"
-          name="login"
-          value="Login"
-        />
+        {isSubmitting ? (
+          <LinearProgress color="secondary" />
+        ) : (
+          <input
+            className={styles.loginBtn}
+            title="Log-In button"
+            type="submit"
+            name="login"
+            value="Login"
+          />
+        )}
         <input
           className={styles.signUpBtn}
           title="Sign-up button"

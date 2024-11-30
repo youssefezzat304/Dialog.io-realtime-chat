@@ -19,7 +19,7 @@ const getMessages = async (req: Request, res: Response) => {
     const messages = (await MessageModel.find({ chatId })
       .populate({
         path: "initiatedBy",
-        select: "profilePic displayName",
+        select: ["profilePicture", "displayName"],
       })
       .exec()) as [DocumentType<Message>];
 

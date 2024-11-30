@@ -4,12 +4,14 @@ import { UserModel } from "../models";
 import { User } from "./user.model";
 import { UserSchemaInput } from "./user.schema";
 import { Types } from "mongoose";
+import { chooseRandomAvatar } from "../../utils/logic";
 
 class UserService {
   private user = UserModel;
 
   public async signUp(input: Partial<User>) {
     try {
+      input.profilePicture = chooseRandomAvatar();
       const user = (await UserModel.create(input)) as DocumentType<User>;
       return user;
     } catch (error) {

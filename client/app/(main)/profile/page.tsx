@@ -7,17 +7,18 @@ import {
   SaveChangesAlert,
 } from "@/_components";
 import { useMemo, useState } from "react";
-import { useTabsStore, useUserStore } from "@/utils/stores";
 import { useForm } from "react-hook-form";
 import { User } from "@/types/user.types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { userValidation } from "@/utils/validation/user.validation";
+import { userValidation } from "@/services/validation/user.validation";
 import { deleteProfilePic, sendProfilePic, updateInfo } from "@/api/axios";
 import { Panel, PanelGroup } from "react-resizable-panels";
 import useAuthenticateUser from "@/hooks/useAuthenticateUser";
 import ProfileLeftSection from "./ProfileLeftSection";
 import ProfileFormSection from "./ProfileFormSection";
 import useMediaQuery from "@/hooks/useMediaQuery";
+import useTabsStore from "@/services/stores/tabs.store";
+import useUserStore from "@/services/stores/user.store";
 
 import styles from "./index.module.css";
 
@@ -52,15 +53,15 @@ const ProfileSettings = () => {
   const saveChanges = async (data: User) => {
     setOpen(false);
     try {
-      const response = await updateInfo(data);
-      if (profilePic === "") {
-        await deleteProfilePic(user?._id);
-        setProfilePic("");
-      }
-      if (ppFile) {
-        const profilePicRes = await sendProfilePic(ppFile, user?._id);
-        setProfilePic(profilePicRes.data.profilePic);
-      }
+      // await updateInfo(data);
+      // if (profilePic === "") {
+      //   console.log("PRO deleted");
+      //   await deleteProfilePic(user?._id);
+      //   setProfilePic("");
+      // }
+
+      await sendProfilePic(ppFile, user!._id);
+
       return;
     } catch (error) {
       console.log(error);

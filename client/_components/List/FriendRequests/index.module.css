@@ -18,6 +18,7 @@
 .listOfNotifications {
   padding: 0px 12px;
   overflow: auto;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   width: 96%;
@@ -49,6 +50,14 @@
   cursor: pointer;
   width: thin;
   color: rgba(82, 28, 135, 0.5) transparent;
+}
+.emptyFriendRequests {
+  font-size: 1rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 @keyframes slideInFromRight {
   from {

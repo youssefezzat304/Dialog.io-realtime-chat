@@ -2,11 +2,11 @@
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import Chat from "../Chat";
 import Chats from "../../List/Chats";
-import { useTabsStore } from "@/utils/stores";
 import Friends from "../../List/Friends";
-import useTabletStore from "@/utils/stores/tablet.store";
+import useTabletStore from "@/services/stores/tablet.store";
 import NavBarTablet from "@/_components/common/Menu/NavBarTablet";
 import useMediaQuery from "@/hooks/useMediaQuery";
+import useTabsStore from "@/services/stores/tabs.store";
 
 import styles from "./index.module.css";
 

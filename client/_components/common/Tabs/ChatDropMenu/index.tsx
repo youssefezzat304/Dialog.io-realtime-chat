@@ -7,7 +7,7 @@ import { ComponentProps, useEffect, useState } from "react";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { IconButton, Tooltip } from "@mui/material";
 import useMediaQuery from "@/hooks/useMediaQuery";
-import { useTabsStore } from "@/utils/stores";
+import useTabsStore from "@/services/stores/tabs.store";
 
 export default function ChatDropMenu({ ...props }: ComponentProps<"div">) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

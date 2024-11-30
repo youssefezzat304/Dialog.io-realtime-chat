@@ -1,10 +1,9 @@
-import { useChatStore } from "@/utils/stores";
 import { User } from "@/types/user.types";
 import Image from "next/image";
-import { AvatarPlaceholder1 } from "@/assets/avatarPlaceholder";
+import { useFindChat } from "@/services/queries/chat.query";
+import useChatStore from "@/services/stores/chat.store";
 
 import styles from "./index.module.css";
-import { useFindChat } from "@/utils/queries/chat.query";
 
 const Friend = ({ friend }: { friend: User }) => {
   const setChatWith = useChatStore((state) => state.setChatWith);
@@ -20,9 +19,11 @@ const Friend = ({ friend }: { friend: User }) => {
       onClick={handleSelectChatId}
     >
       <Image
+        height={48}
+        width={48}
         className={styles.profilePic}
+        src={profilePicture}
         alt={displayName}
-        src={!profilePicture ? AvatarPlaceholder1 : profilePicture}
       />
       <section className={styles.friendName}>
         <label htmlFor="">{displayName}</label>

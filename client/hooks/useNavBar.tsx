@@ -1,8 +1,8 @@
-import { useTabsStore } from "@/utils/stores";
-import useTabletStore from "@/utils/stores/tablet.store";
+import useTabletStore from "@/services/stores/tablet.store";
 import { useRouter } from "next/navigation";
 import { useThemeContext } from "@/contexts/ThemeContext";
 import { useEffect } from "react";
+import useTabsStore from "@/services/stores/tabs.store";
 
 const useNavBar = () => {
   const {

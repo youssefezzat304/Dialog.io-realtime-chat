@@ -1,6 +1,5 @@
 "use client";
 import { findChat, getAllChats } from "@/api/chat.api";
-import { useChatStore, useUserStore } from "../stores";
 import { useQuery } from "@tanstack/react-query";
 import {
   getMessages,
@@ -10,7 +9,9 @@ import {
 import { useEffect, useState } from "react";
 import { socket } from "@/app/socket";
 import { PrivateChat } from "@/types/chat.types";
-import { db } from "../indexedDB";
+import { db } from "../../utils/indexedDB";
+import useUserStore from "../stores/user.store";
+import useChatStore from "../stores/chat.store";
 
 export const useGetChats = () => {
   const currentUser = useUserStore((state) => state.user);

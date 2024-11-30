@@ -1,21 +1,18 @@
 "use client";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import SearchBar from "../../common/Search/FriendsSearch";
 import RecentChat from "../../common/Entities/RecentChat";
 import EmptyChats from "../../SVGs/emptyChats";
-import { useGetChats } from "@/utils/queries/chat.query";
-import { useChatStore, useUserStore } from "@/utils/stores";
+import { useGetChats } from "@/services/queries/chat.query";
 import { PrivateChat } from "@/types/chat.types";
 import { CircularProgress } from "@mui/material";
-import { db } from "@/utils/indexedDB";
+import useUserStore from "@/services/stores/user.store";
+import useChatStore from "@/services/stores/chat.store";
 
 import styles from "./index.module.css";
 
 const Chats = () => {
-  const { recentChats, setRecentChats } = useChatStore((state) => ({
-    recentChats: state.recentChats,
-    setRecentChats: state.setRecentChats,
-  }));
+  const recentChats = useChatStore((state) => state.recentChats);
 
   const currentUser = useUserStore((state) => state.user);
   const { isLoading } = useGetChats();

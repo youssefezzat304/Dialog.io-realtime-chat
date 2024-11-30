@@ -1,7 +1,6 @@
-import { AvatarPlaceholder1 } from "@/assets/avatarPlaceholder";
 import { IoCheckmark, IoClose } from "react-icons/io5";
 import dayjs from "dayjs";
-import { useHandleFriendRequest } from "@/utils/queries/friendRequest.query";
+import { useHandleFriendRequest } from "@/services/queries/friendRequest.query";
 import { FriendRequestNotificationProps } from "@/types/props.types";
 import ButtonIcon from "../../Icon/ButtonIcon";
 import Image from "next/image";
@@ -13,6 +12,7 @@ const FriendRequestNotification = ({
   recipientId,
   requesterId,
 }: FriendRequestNotificationProps) => {
+  const { profilePicture, displayName, createAt } = request;
   const { acceptRequest, rejectRequest } = useHandleFriendRequest();
 
   const handleAccept = () => {
@@ -25,13 +25,15 @@ const FriendRequestNotification = ({
     <main className={styles.friendRequestNotification}>
       <section>
         <Image
-          alt={request.displayName}
-          src={!request.profilePic ? AvatarPlaceholder1 : request.profilePic}
+          width={52}
+          height={52}
+          alt={displayName}
+          src={profilePicture}
           className={styles.avatar}
         />
         <div>
           <span>
-            <strong>{request.displayName}</strong>
+            <strong>{displayName}</strong>
             <p>Wants to connect!</p>
           </span>
         </div>
@@ -51,7 +53,7 @@ const FriendRequestNotification = ({
         />
       </section>
       <div className={styles.time}>
-        {dayjs(request.createAt).format("MMM D, YYYY h:mm A")}
+        {dayjs(createAt).format("MMM D, YYYY h:mm A")}
       </div>
     </main>
   );

@@ -3,15 +3,16 @@ import { Panel } from "react-resizable-panels";
 import ButtonIcon from "@/_components/common/Icon/ButtonIcon";
 import { IoClose } from "react-icons/io5";
 import ChatInfoUtilities from "../ChatInfo/ChatInfoUtilities.tsx";
-import { useChatStore, useTabsStore, useUserStore } from "@/utils/stores";
 import Image from "next/image";
-import AvatarPlaceholder1 from "../../../../Database/avatar-placeholder/1.svg";
+import { chooseRandomAvatar } from "@/utils/avatarSystem";
+import useTabsStore from "@/services/stores/tabs.store";
+import useUserStore from "@/services/stores/user.store";
+import useChatStore from "@/services/stores/chat.store";
 
 import styles from "./index.module.css";
 
 const ChatInfoContainer = () => {
   const setChatInfo = useTabsStore((state) => state.setChatInfo);
-  const profilePic = useUserStore((state) => state.profilePic);
   const contact = useChatStore((state) => state.chatWith);
 
   return (
@@ -27,8 +28,10 @@ const ChatInfoContainer = () => {
       <div className={styles.body}>
         <section className={styles.profile}>
           <Image
+            height={160}
+            width={160}
             className={styles.profilePicture}
-            src={!profilePic ? AvatarPlaceholder1 : profilePic}
+            src={contact?.profilePicture!}
             alt="Contact profile picture"
           />
           <span>{contact?.displayName}</span>

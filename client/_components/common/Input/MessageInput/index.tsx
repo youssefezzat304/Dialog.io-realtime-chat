@@ -1,14 +1,15 @@
 import { sendMessage } from "@/api/messages.api";
 import { socket } from "@/app/socket";
-import { useChatStore, useUserStore } from "@/utils/stores";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import AttachBtn from "../../Button/AttachBtn";
 import VoiceNoteBtn from "../../Button/VoiceNoteBtn";
 import SendMessageBtn from "../../Button/SendMessageBtn";
+import EmojiPickerBtn from "../../Button/EmojiPickerBtn";
+import useChatStore from "@/services/stores/chat.store";
+import useUserStore from "@/services/stores/user.store";
 
 import styles from "./index.module.css";
-import EmojiPickerBtn from "../../Button/EmojiPickerBtn";
 
 const MessageInput = () => {
   const { register, handleSubmit, reset, watch, setValue } = useForm();

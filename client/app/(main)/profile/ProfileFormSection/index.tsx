@@ -5,10 +5,10 @@ import { ProfileInput } from "@/_components";
 import BirthDateInput from "@/_components/common/Input/BirthDateInput";
 import CountryInput from "@/_components/common/Input/CountryInput";
 import { TextField } from "@mui/material";
-import { use, useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { FieldError } from "react-hook-form";
 import { User } from "@/types/user.types";
-import { useUserStore } from "@/utils/stores";
+import useUserStore from "@/services/stores/user.store";
 
 const ProfileFormSection = ({
   control,

@@ -2,9 +2,9 @@
 import { NavBar, RoutesLoading } from "@/_components";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import useAuthenticateUser from "@/hooks/useAuthenticateUser";
-import { useUserStore } from "@/utils/stores";
 import { useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
+import useUserStore from "@/services/stores/user.store";
 
 import styles from "./layout.module.css";
 

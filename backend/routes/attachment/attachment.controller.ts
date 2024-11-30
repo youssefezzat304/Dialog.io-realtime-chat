@@ -1,9 +1,10 @@
-import fs from "fs";
-import path from "path";
 import { Request, Response, Router } from "express";
-import { uploadProfilePictureMiddleware } from "../../middlewares/upload.middleware";
 import { UserModel } from "../models";
 import checkAuthMiddleware from "../../middlewares/checkAuth.middleware";
+import upload from "../../middlewares/upload.middleware";
+import path from "path";
+import fs from "fs";
+import { processImage } from "../attachment/attachment.service";
 
 const uploadController = Router();
 
@@ -13,29 +14,40 @@ const profilePictureUpload = async (req: Request, res: Response) => {
       return res.status(400).json({ message: "No file uploaded." });
     }
 
-    const newUploadDirectory = path.join(
+    const compressedImage = await processImage(req.file.buffer);
+
+    const userId = req.body.requesterId;
+    const userDir = path.join(
       __dirname,
-      "..",
-      "..",
-      "..",
-      "Profile-Pictures",
+      "../../../Database",
+      userId,
+      "profile_picture",
     );
-    const filePath = path.join(newUploadDirectory, req.file.path);
 
-    const base64Image = fs.readFileSync(filePath, { encoding: "base64" });
-    const mimeType = req.file.mimetype;
-    const base64Data = `data:${mimeType};base64,${base64Image}`;
+    fs.mkdirSync(userDir, { recursive: true });
 
-    const user = await UserModel.findByIdAndUpdate(req.body.requester, {
-      $set: {
-        profilePic: base64Data,
-      },
+    const filePath = path.join(
+      userDir,
+      `${userId}-${Date.now()}-${req.file.originalname}`,
+    );
+    fs.writeFileSync(filePath, compressedImage);
+
+    // TODO: fix url issues
+    const profilePictureUrl = `/Database/${userId}/profile_picture/${path.basename(
+      filePath,
+    )}`;
+    await UserModel.findByIdAndUpdate(userId, {
+      profilePicture: profilePictureUrl,
     });
 
-    return res.status(200).send(user);
+    return res.status(200).json({
+      message: "File uploaded and processed successfully!",
+      filePath: filePath,
+      profilePictureUrl,
+    });
   } catch (error) {
-    console.error("Error uploading profile picture:", error);
-    res.status(500).json({ message: "Failed to upload profile picture." });
+    console.error(error);
+    return res.status(500).json({ message: "Error processing file", error });
   }
 };
 
@@ -67,13 +79,13 @@ const profilePictureDelete = async (req: Request, res: Response) => {
 };
 
 uploadController.post(
-  process.env.UPLOAD_PROFILE_PIC_ENDPOINT as string,
-  uploadProfilePictureMiddleware.single("profilePic"),
+  "/upload/profile-picture",
   checkAuthMiddleware,
+  upload.single("profilePicture"),
   profilePictureUpload,
 );
 uploadController.patch(
-  process.env.DELETE_PROFILE_PIC_ENDPOINT as string,
+  "/upload/delete-profile-picture",
   checkAuthMiddleware,
   profilePictureDelete,
 );

@@ -1,12 +1,12 @@
 "use client";
 import { useEffect, useRef } from "react";
-import { useGetMessages } from "@/utils/queries/chat.query";
+import { useGetMessages } from "@/services/queries/chat.query";
 import { CircularProgress, Divider } from "@mui/material";
-import { useChatStore } from "@/utils/stores";
 import { receiveMessage } from "@/api/messages.api";
 import { socket } from "@/app/socket";
 import { ChatMessage } from "@/_components";
-import { groupMessagesByDay } from "@/utils/functions/time";
+import { groupMessagesByDay } from "@/utils/time";
+import useChatStore from "@/services/stores/chat.store";
 
 import styles from "./index.module.css";
 

@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { handleFriendRequest } from "../../api/friendrequest.api";
-import { useUserStore } from "../stores";
 import { FriendRequestType } from "@/types/friendSystem.types";
+import useUserStore from "../stores/user.store";
 
 export const useHandleFriendRequest = () => {
   const queryClient = useQueryClient();

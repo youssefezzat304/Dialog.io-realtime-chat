@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import {
   SignupSchema,
   signupValidation,
-} from "../../../../utils/validation/user.validation";
+} from "../../../../services/validation/user.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { api } from "@/api/axios";
@@ -12,6 +12,7 @@ import { MdClose } from "react-icons/md";
 import { ButtonIcon } from "@/_components";
 
 import styles from "./index.module.css";
+import { LinearProgress } from "@mui/material";
 
 const SignUp = ({ logIn }: any) => {
   const router = useRouter();
@@ -19,12 +20,13 @@ const SignUp = ({ logIn }: any) => {
     register,
     handleSubmit,
     setError,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     clearErrors,
   } = useForm<SignupSchema>({ resolver: zodResolver(signupValidation) });
   const clearAllErrors = () => {
     clearErrors();
   };
+
   const handleSignup: SubmitHandler<SignupSchema> = async (data) => {
     if (data.password !== data.confirmPassword) {
       setError("confirmPassword", {
@@ -86,13 +88,17 @@ const SignUp = ({ logIn }: any) => {
           placeholder="Confrim your password"
           {...register("confirmPassword")}
         />
-        <input
-          className={styles.signUpBtn}
-          title="Confirm sign-up"
-          type="submit"
-          name="signUp"
-          value="SignUp"
-        />
+        {isSubmitting ? (
+          <LinearProgress color="secondary" />
+        ) : (
+          <input
+            className={styles.signUpBtn}
+            title="Confirm sign-up"
+            type="submit"
+            name="signUp"
+            value="SignUp"
+          />
+        )}
         <input
           className={styles.loginBtn}
           title="Go to login page"

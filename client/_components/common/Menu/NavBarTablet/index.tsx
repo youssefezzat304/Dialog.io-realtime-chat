@@ -6,9 +6,8 @@ import AddFriendDialog from "../../Dialog/AddFriendDialog";
 import NavBarTabletBtn from "../../Button/NavBarTabletBtn";
 import useLogOut from "@/hooks/useLogOut";
 import useNavBar from "@/hooks/useNavBar";
-import { useUserStore } from "@/utils/stores";
 import Image from "next/image";
-import { AvatarPlaceholder1 } from "@/assets/avatarPlaceholder";
+import useUserStore from "@/services/stores/user.store";
 
 import styles from "./index.module.css";
 
@@ -30,8 +29,10 @@ const NavBarTablet = () => {
     <main className={styles.main}>
       <div className={styles.profileContainer} onClick={gotoProfileSettings}>
         <Image
+          height={62}
+          width={62}
           className={styles.profilePicture}
-          src={!profilePic ? AvatarPlaceholder1 : profilePic}
+          src={currentUser?.profilePicture!}
           alt={`${currentUser?.displayName}'s profile picture`}
         />
         <strong>{currentUser?.displayName}</strong>

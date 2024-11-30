@@ -1,10 +1,10 @@
 import ButtonIcon from "@/_components/common/Icon/ButtonIcon";
-import { useTabsStore } from "@/utils/stores";
 import { BiSolidMessageSquareDots } from "react-icons/bi";
 import { FaUserFriends } from "react-icons/fa";
 import { IoClose, IoSettings } from "react-icons/io5";
 import { PiListFill } from "react-icons/pi";
 import { TbAlertSquareRoundedFilled } from "react-icons/tb";
+import useTabsStore from "@/services/stores/tabs.store";
 
 import styles from "./index.module.css";
 

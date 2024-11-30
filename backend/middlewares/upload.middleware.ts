@@ -1,14 +1,8 @@
 import multer from "multer";
+import path from "path";
 
-const profilePicturesStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "../Database/Profile-Pictures");
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + "--" + file.originalname);
-  },
-});
+export const storage = multer.memoryStorage();
 
-export const uploadProfilePictureMiddleware = multer({
-  storage: profilePicturesStorage,
-});
+const upload = multer({ storage: storage });
+
+export default upload;

@@ -1,9 +1,9 @@
 import { CiSearch } from "react-icons/ci";
 import BurgerMenuBtn from "../../Button/BurgerMenuBtn";
 import useMediaQuery from "@/hooks/useMediaQuery";
-import useTabletStore from "@/utils/stores/tablet.store";
-import { useTabsStore } from "@/utils/stores";
+import useTabletStore from "@/services/stores/tablet.store";
 import CreateGroup from "@/_components/common/Dialog/CreateGroup";
+import useTabsStore from "@/services/stores/tabs.store";
 
 import styles from "./index.module.css";
 

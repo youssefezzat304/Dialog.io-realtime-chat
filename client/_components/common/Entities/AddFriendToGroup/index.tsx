@@ -2,21 +2,21 @@ import { User } from "@/types/user.types";
 import Image from "next/image";
 
 import styles from "./index.module.css";
-import { AvatarPlaceholder1 } from "@/assets/avatarPlaceholder";
 
 const AddFriendToGroup = ({ friend }: { friend: User }) => {
+  const { profilePicture, displayName } = friend;
   return (
     <div className={styles.container}>
       <section className={styles.subjectMain}>
         <Image
+          width={40}
+          height={40}
           className={styles.profilePic}
           alt="Profile Picture"
-          src={
-            !friend.profilePicture ? AvatarPlaceholder1 : friend.profilePicture
-          }
+          src={profilePicture}
         />
         <div className={styles.friendName}>
-          <label htmlFor="">{friend.displayName}</label>
+          <label htmlFor="">{displayName}</label>
         </div>
       </section>
 

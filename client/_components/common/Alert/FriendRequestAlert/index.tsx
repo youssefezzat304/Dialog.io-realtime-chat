@@ -16,7 +16,6 @@ const FriendRequestAlert = ({
   type,
   clearErrors,
   watch,
-  ...props
 }: AlertType) => {
   return (
     <Collapse in={watch}>

@@ -7,11 +7,10 @@ import {
 } from "react-icons/md";
 import { FaUndo } from "react-icons/fa";
 import { LuUpload } from "react-icons/lu";
-import { useUserStore } from "@/utils/stores";
 import { UploadFileBtn } from "@/_components";
 import { ProfileLeftSectionProps } from "@/types/props.types";
 import Image from "next/image";
-import { AvatarPlaceholder1 } from "@/assets/avatarPlaceholder";
+import useUserStore from "@/services/stores/user.store";
 
 import styles from "./index.module.css";
 
@@ -54,7 +53,7 @@ const ProfileLeftSection = ({
         <Image
           width={230}
           height={230}
-          src={!profilePic ? AvatarPlaceholder1 : profilePic}
+          src={profilePic ? profilePic : currentUser?.profilePicture!}
           className={styles.placeholder}
           alt="Profile picture"
         />

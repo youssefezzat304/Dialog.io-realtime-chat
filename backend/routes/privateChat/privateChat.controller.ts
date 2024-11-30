@@ -19,7 +19,7 @@ const getRecentChats = async (req: Request, res: Response) => {
       .populate({
         path: "chats",
         populate: [
-          { path: "participants", select: ["displayName", "profilePic"] },
+          { path: "participants", select: ["displayName", "profilePicture"] },
           {
             path: "lastMessage",
             model: "Message",
